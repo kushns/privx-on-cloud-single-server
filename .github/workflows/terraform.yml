@@ -81,4 +81,4 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -target=module.aws -target=module.gcloud
+      run: terraform plan -target=module.aws
