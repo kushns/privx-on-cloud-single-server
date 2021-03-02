@@ -1,0 +1,75 @@
+# Aws variables
+variable "aws_region" {
+  default     = null
+  type        = string
+  description = "AWS region"
+}
+
+variable "key_name" {
+  default     = null
+  type        = string
+  description = "AWS key pair name for SSH password less authentication"
+}
+
+variable "aws_instance_type" {
+  default     = "t2.medium"
+  type        = string
+  description = "EC2 instance type for Privx"
+}
+
+# Azure variables
+variable "azure_region" {
+  default     = null
+  type        = string
+  description = "Azure region"
+}
+
+variable "azure_vmsize" {
+  default     = "Standard_DS1_v2"
+  type        = string
+  description = "Azure VM type for Privx"
+}
+
+# GCP variables
+variable "gcp_project-id" {
+  default     = null
+  type        = string
+  description = "GCP project id"
+}
+
+variable "gcp_region" {
+  default     = null
+  type        = string
+  description = "GCP region"
+}
+
+variable "gcp_zone" {
+  default     = null
+  type        = string
+  description = "GCP zone"
+}
+
+variable "gcp_machine_type" {
+  default     = "e2-medium"
+  type        = string
+  description = "GCP machine type for Privx"
+}
+
+# Common variables
+variable "privx_superuser" {
+  default     = "admin"
+  type        = string
+  description = "Privx superuser name"
+}
+
+variable "ssh_pub_key_file" {
+  default     = "~/.ssh/id_rsa.pub"
+  type        = string
+  description = "SSH public key path to setup password less authentication"
+}
+
+variable "ssh_private_key_file" {
+  default     = "~/.ssh/id_rsa"
+  type        = string
+  description = "SSH Private key path for above mentioned public key"
+}
