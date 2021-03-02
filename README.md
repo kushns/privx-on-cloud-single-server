@@ -59,13 +59,7 @@ This repo contain terraform code to spin 1 centos8 server on selected/all cloud 
 ```
     # Privx superuser name (default = admin)
     privx_superuser = "admin"
-    
-    # SSH Private key path (default = ~/.ssh/id_rsa)
-    ssh_private_key_file = "~/.ssh/id_rsa"
-    
-    # SSH public key path to setup password less authentication (default = ~/.ssh/id_rsa.pub)
-    ssh_pub_key_file =  "~/.ssh/id_rsa.pub" 
-    
+     
     # EC2 instance type for Privx (default = t2.medium) 
     aws_instance_type = "t2.medium"
     
@@ -74,6 +68,18 @@ This repo contain terraform code to spin 1 centos8 server on selected/all cloud 
         
     # GCP machine type for PrivX (default = e2-medium)
     gcp_machine_type = "e2-medium"
+    
+    # SSH Private key path (default = ~/.ssh/id_rsa)
+    ssh_private_key_file = "~/.ssh/id_rsa"
+    
+    # SSH public key path to setup password less authentication (default = ~/.ssh/id_rsa.pub)
+    ssh_pub_key_file =  "~/.ssh/id_rsa.pub"
+    
+    # SSH public key data for terraform cloud, leave as null if using ssh_pub_key_file
+    ssh_pub_key_data = null
+
+    # SSH Private key data for terraform cloud, leave as null if using ssh_private_key_file
+    ssh_private_key_data = null
 ```
 **Note:** ssh_private_key_file and ssh_pub_key_file files should be created outside git repo as these files contain credentials data.
 

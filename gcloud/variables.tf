@@ -19,15 +19,28 @@ variable "machine_typeprivx" {
   description = "machine type for Privx"
 }
 
-variable "ssh_private_key_file" {
+variable "ssh_pub_key_file" {
+  default     = "~/.ssh/id_rsa.pub"
   type        = string
-  description = "Private key path"
+  description = "SSH public key path to setup password less authentication"
 }
 
-variable "ssh_pub_key_file" {
+variable "ssh_pub_key_data" {
+  default     = null
   type        = string
-  default     = "~/.ssh/id_rsa.pub"
-  description = "Google compute Engine ssh public key file"
+  description = "SSH public key data for terraform cloud, leave as null if using ssh_pub_key_file"
+}
+
+variable "ssh_private_key_file" {
+  default     = "~/.ssh/id_rsa"
+  type        = string
+  description = "SSH Private key path"
+}
+
+variable "ssh_private_key_data" {
+  default     = null
+  type        = string
+  description = "SSH Private key data for terraform cloud, leave as null if using ssh_private_key_file"
 }
 
 variable "ssh_user" {

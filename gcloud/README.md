@@ -30,12 +30,6 @@ region = "europe-west2"
 
 # GCP zone
 zone = "europe-west2-b"
-
-#Public key to setup password less authentication for centos user on target Virutal machines
-ssh_pub_key_file = "~/.ssh/id_rsa.pub"
-
-# Private key path for key data specified above, Update private key path
-ssh_private_key_file = "~/.ssh/id_rsa"
 ```
 
 **Note:** private_key file should be created outside git repo as these files contain confidential data (private_key).
@@ -47,6 +41,18 @@ machine_typeprivx = "e2-medium"
 
 # Privx superuser name
 privx_superuser = "admin"
+
+#Public key to setup password less authentication for centos user on target Virutal machines
+ssh_pub_key_file = "~/.ssh/id_rsa.pub"
+
+# Private key path for key data specified above, Update private key path
+ssh_private_key_file = "~/.ssh/id_rsa"
+
+# SSH public key data for terraform cloud, leave as null if using ssh_pub_key_file
+ssh_pub_key_data = null
+
+# SSH Private key data for terraform cloud, leave as null if using ssh_private_key_file
+ssh_private_key_data = null
 ```
 
 **Note:** RANDOM password for database and privx_superuser will be generated and included in output.

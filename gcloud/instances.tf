@@ -24,7 +24,7 @@ resource "google_compute_instance" "privx" {
   }
 
   metadata = {
-    ssh-keys = "${var.ssh_user}:${file(var.ssh_pub_key_file)}"
+    ssh-keys = "${var.ssh_user}:${var.ssh_pub_key_data == null ? file(var.ssh_pub_key_file) : var.ssh_pub_key_data}"
   }
 
   provisioner "remote-exec" {
@@ -54,7 +54,7 @@ resource "google_compute_instance" "privx" {
     connection {
       host        = self.network_interface[0].access_config[0].nat_ip
       user        = var.ssh_user
-      private_key = file(var.ssh_private_key_file)
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
     }
   }
 }

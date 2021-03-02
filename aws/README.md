@@ -26,9 +26,6 @@ region = "eu-west-2"
 
 # AWS key pair name for SSH password less authentication.
 key_name = "default-linux-key"
-
-# Private key path for key name specified above, Update private key path
-ssh_private_key_file = "~/.ssh/id_rsa"
 ```
 
 **Note:** private_key file should be created outside git repo as these files contain confidential data (private_key).
@@ -40,6 +37,12 @@ instance_typeprivx = "t2.medium"
 
 # Privx superuser name
 privx_superuser = "admin"
+
+# Private key path for key name specified above (default = "~/.ssh/id_rsa") 
+ssh_private_key_file = "~/.ssh/id_rsa"
+
+# Private key data for terraform cloud, leave as null if using ssh_private_key_file (default = null)
+ssh_private_key_data = null
 ```
 
 **Note:** RANDOM password for database and privx_superuser will be generated and included in output.

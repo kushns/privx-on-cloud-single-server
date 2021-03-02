@@ -66,7 +66,7 @@ resource "aws_instance" "privx" {
     connection {
       host        = self.public_dns
       user        = var.os_username
-      private_key = file(var.ssh_private_key_file)
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
     }
   }
 }

@@ -15,8 +15,15 @@ variable "instance_type_privx" {
 }
 
 variable "ssh_private_key_file" {
+  default     = "~/.ssh/id_rsa"
   type        = string
-  description = "Private key path for key name specified above"
+  description = "SSH Private key path for key name specified above"
+}
+
+variable "ssh_private_key_data" {
+  default     = null
+  type        = string
+  description = "Private key data for terraform cloud, leave as null if using ssh_private_key_file"
 }
 
 variable "os_username" {

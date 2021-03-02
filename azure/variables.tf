@@ -10,13 +10,27 @@ variable "privx_vmsize" {
 }
 
 variable "ssh_pub_key_file" {
+  default     = "~/.ssh/id_rsa.pub"
   type        = string
   description = "SSH public key path to setup password less authentication"
 }
 
-variable "ssh_private_key_file" {
+variable "ssh_pub_key_data" {
+  default     = null
   type        = string
-  description = "SSH Private key path for above mentioned public key"
+  description = "SSH public key data for terraform cloud, leave as null if using ssh_pub_key_file"
+}
+
+variable "ssh_private_key_file" {
+  default     = "~/.ssh/id_rsa"
+  type        = string
+  description = "SSH Private key path"
+}
+
+variable "ssh_private_key_data" {
+  default     = null
+  type        = string
+  description = "SSH Private key data for terraform cloud, leave as null if using ssh_private_key_file"
 }
 
 variable "privx_superuser" {
