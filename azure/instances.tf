@@ -5,6 +5,7 @@ resource "azurerm_virtual_machine" "privx" {
   network_interface_ids         = [azurerm_network_interface.privx-nic.id]
   vm_size                       = var.privx_vmsize
   delete_os_disk_on_termination = true
+  depends_on                    = [azurerm_network_interface_security_group_association.privx]
   storage_image_reference {
     publisher = "OpenLogic"
     offer     = "CentOS"
@@ -24,7 +25,7 @@ resource "azurerm_virtual_machine" "privx" {
   os_profile_linux_config {
     disable_password_authentication = "true"
     ssh_keys {
-      key_data = file(var.ssh_pub_key_file)
+      key_data = var.ssh_pub_key_data == null ? file(var.ssh_pub_key_file) : var.ssh_pub_key_data
       path     = "/home/${var.os_username}/.ssh/authorized_keys"
     }
   }
@@ -59,7 +60,7 @@ resource "azurerm_virtual_machine" "privx" {
       type        = "ssh"
       host        = azurerm_public_ip.privx-public.fqdn
       user        = var.os_username
-      private_key = file(var.ssh_private_key_file)
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
     }
   }
 }
