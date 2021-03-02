@@ -31,7 +31,7 @@ variable "azure_vmsize" {
 }
 
 # GCP variables
-variable "gcp_project-id" {
+variable "gcp_project_id" {
   default     = null
   type        = string
   description = "GCP project id"
