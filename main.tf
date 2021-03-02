@@ -26,7 +26,7 @@ module "gcloud" {
   ssh_private_key_data = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
   ssh_pub_key_data     = var.ssh_pub_key_data == null ? file(var.ssh_pub_key_file) : var.ssh_pub_key_data
   region               = var.gcp_region
-  project-id           = var.gcp_project-id
+  project-id           = var.gcp_project_id
   zone                 = var.gcp_zone
   privx_superuser      = var.privx_superuser
   machine_typeprivx    = var.gcp_machine_type
