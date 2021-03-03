@@ -81,4 +81,4 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: set #terraform plan -target=module.gcloud
+      run: cat $GITHUB_ENV && set #terraform plan -target=module.gcloud
