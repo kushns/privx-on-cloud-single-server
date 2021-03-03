@@ -81,4 +81,4 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -target=module.gcloud
+      run: echo $GOOGLE_CREDENTIALS && terraform plan -target=module.gcloud
