@@ -1,4 +1,4 @@
-data "aws_ami" "centos7" {
+data "aws_ami" "centos8" {
   owners = [
   "679593333241"]
   most_recent = true
@@ -23,7 +23,7 @@ data "aws_ami" "centos7" {
 }
 
 resource "aws_instance" "privx" {
-  ami           = data.aws_ami.centos7.id
+  ami           = data.aws_ami.centos8.id
   instance_type = var.instance_type_privx
   tags = {
     Name      = "PrivX-terraform"
