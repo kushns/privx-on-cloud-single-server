@@ -64,3 +64,56 @@ resource "azurerm_virtual_machine" "privx" {
     }
   }
 }
+
+
+resource "azurerm_virtual_machine" "privx-web" {
+  count                         = var.enable_web ? 1 : 0
+  name                          = "privx-web-vm"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  network_interface_ids         = [azurerm_network_interface.privx-web-nic[0].id]
+  vm_size                       = var.privx_web_vmsize
+  delete_os_disk_on_termination = true
+  depends_on                    = [azurerm_network_interface_security_group_association.privx-web[0]]
+  storage_image_reference {
+    publisher = "OpenLogic"
+    offer     = "CentOS"
+    sku       = "8_3-gen2"
+    version   = "8.3.2020120901"
+  }
+  storage_os_disk {
+    name              = "privxwebosdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+  os_profile {
+    admin_username = var.os_username
+    computer_name  = var.privx_web_hostname
+  }
+  os_profile_linux_config {
+    disable_password_authentication = "true"
+    ssh_keys {
+      key_data = var.ssh_pub_key_data == null ? file(var.ssh_pub_key_file) : var.ssh_pub_key_data
+      path     = "/home/${var.os_username}/.ssh/authorized_keys"
+    }
+  }
+  tags = {
+    environment = "Privx-Web-Poc"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf install epel-release yum-utils -y -q",
+      "sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo",
+      "sudo rpm --import https://product-repository.ssh.com/info.fi-ssh.com-pubkey.asc",
+      "sudo curl https://product-repository.ssh.com/rhel8/ssh-products.repo -o /etc/yum.repos.d/ssh-products.repo",
+      "sudo dnf install PrivX-Carrier PrivX-Web-Proxy -y -q",
+    ]
+    connection {
+      type        = "ssh"
+      host        = azurerm_public_ip.privx-web-public[0].fqdn
+      user        = var.os_username
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
+    }
+  }
+}

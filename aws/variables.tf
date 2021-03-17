@@ -14,6 +14,12 @@ variable "instance_type_privx" {
   description = "EC2 instance type for Privx"
 }
 
+variable "instance_type_privx_web" {
+  default     = "t2.medium"
+  type        = string
+  description = "EC2 instance type for Privx_Web"
+}
+
 variable "ssh_private_key_file" {
   default     = "~/.ssh/id_rsa"
   type        = string
@@ -38,3 +44,8 @@ variable "privx_superuser" {
   description = "Privx superuser name"
 }
 
+variable "enable_web" {
+  default     = false
+  type        = bool
+  description = "Launch and configure additional machine for Web http/https"
+}

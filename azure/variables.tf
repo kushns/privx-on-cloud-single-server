@@ -9,6 +9,12 @@ variable "privx_vmsize" {
   description = "Azure VM type for Privx"
 }
 
+variable "privx_web_vmsize" {
+  default     = "Standard_DS1_v2"
+  type        = string
+  description = "Azure VM type for Privx Web"
+}
+
 variable "ssh_pub_key_file" {
   default     = "~/.ssh/id_rsa.pub"
   type        = string
@@ -49,4 +55,16 @@ variable "privx_hostname" {
   default     = "privx.example.com"
   type        = string
   description = "Hostname for PrivX Azure VM"
+}
+
+variable "privx_web_hostname" {
+  default     = "privx-web.example.com"
+  type        = string
+  description = "Hostname for PrivX Azure VM"
+}
+
+variable "enable_web" {
+  default     = false
+  type        = bool
+  description = "Launch and configure additional machine for Web http/https"
 }
