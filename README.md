@@ -1,3 +1,5 @@
+[![Terraform](https://github.com/kushns/privx-on-cloud-single-server/actions/workflows/terraform.yml/badge.svg)](https://github.com/kushns/privx-on-cloud-single-server/actions/workflows/terraform.yml)
+
 # PrivX on Cloud: Single Server
 This project simplifies PrivX on-boarding experience with deployment automation using Infrastructure as a Code (terraform) on below Cloud platforms.
 * AWS
