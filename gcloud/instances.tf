@@ -58,3 +58,50 @@ resource "google_compute_instance" "privx" {
     }
   }
 }
+
+
+resource "google_compute_instance" "privx-web" {
+  count        = var.enable_web ? 1 : 0
+  name         = "privx-web"
+  machine_type = var.machine_typeprivxweb
+  zone         = var.zone
+
+  tags = ["ssh"]
+  labels = {
+    name = "privx-web"
+  }
+
+  boot_disk {
+    initialize_params {
+      image = "centos-cloud/centos-8"
+    }
+  }
+
+  network_interface {
+    network = data.google_compute_network.default.name
+
+    access_config {
+      // Ephemeral IP
+      nat_ip = google_compute_address.privx-web-static[0].address
+    }
+  }
+
+  metadata = {
+    ssh-keys = "${var.ssh_user}:${var.ssh_pub_key_data == null ? file(var.ssh_pub_key_file) : var.ssh_pub_key_data}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf install epel-release yum-utils -y -q",
+      "sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo",
+      "sudo rpm --import https://product-repository.ssh.com/info.fi-ssh.com-pubkey.asc",
+      "sudo curl https://product-repository.ssh.com/rhel8/ssh-products.repo -o /etc/yum.repos.d/ssh-products.repo",
+      "sudo dnf install PrivX-Carrier PrivX-Web-Proxy -y -q",
+    ]
+    connection {
+      host        = self.network_interface[0].access_config[0].nat_ip
+      user        = var.ssh_user
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
+    }
+  }
+}

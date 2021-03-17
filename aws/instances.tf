@@ -33,6 +33,7 @@ resource "aws_instance" "privx" {
   subnet_id              = aws_default_subnet.subnet_1.id
   root_block_device {
     delete_on_termination = true
+    volume_size           = 20
   }
   associate_public_ip_address = true
   key_name                    = var.key_name
@@ -62,6 +63,42 @@ resource "aws_instance" "privx" {
       "EOF",
       "sudo bash config.sh",
       "rm -rf config.sh"
+    ]
+    connection {
+      host        = self.public_dns
+      user        = var.os_username
+      private_key = var.ssh_private_key_data == null ? file(var.ssh_private_key_file) : var.ssh_private_key_data
+    }
+  }
+}
+
+
+resource "aws_instance" "privx-web" {
+  count         = var.enable_web ? 1 : 0
+  ami           = data.aws_ami.centos8.id
+  instance_type = var.instance_type_privx_web
+  tags = {
+    Name      = "PrivX_Web-terraform"
+    Terraform = "True"
+  }
+  vpc_security_group_ids = [aws_security_group.privx_web[0].id]
+  subnet_id              = aws_default_subnet.subnet_1.id
+  root_block_device {
+    delete_on_termination = true
+    volume_size           = 20
+  }
+  associate_public_ip_address = true
+  key_name                    = var.key_name
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf install epel-release yum-utils -y -q",
+      "sudo dnf install cloud-utils-growpart -y -q",
+      "sudo growpart /dev/xvda 2",
+      "sudo xfs_growfs -d /",
+      "sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo",
+      "sudo rpm --import https://product-repository.ssh.com/info.fi-ssh.com-pubkey.asc",
+      "sudo curl https://product-repository.ssh.com/rhel8/ssh-products.repo -o /etc/yum.repos.d/ssh-products.repo",
+      "sudo dnf install PrivX-Carrier PrivX-Web-Proxy -y -q",
     ]
     connection {
       host        = self.public_dns

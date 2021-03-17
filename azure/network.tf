@@ -40,3 +40,26 @@ resource "azurerm_network_interface" "privx-nic" {
     public_ip_address_id          = azurerm_public_ip.privx-public.id
   }
 }
+
+resource "azurerm_public_ip" "privx-web-public" {
+  count               = var.enable_web ? 1 : 0
+  location            = azurerm_resource_group.rg.location
+  name                = "Privx-web-public"
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  domain_name_label   = "privx-web-poc"
+}
+
+resource "azurerm_network_interface" "privx-web-nic" {
+  count               = var.enable_web ? 1 : 0
+  name                = "Privx-web-nic"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "privx-web-nic"
+    subnet_id                     = azurerm_subnet.subnet1.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.privx-web-public[0].id
+  }
+}

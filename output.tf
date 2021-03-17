@@ -3,6 +3,10 @@ output "aws-privx-public-dns" {
   value = join("", ["https://", module.aws.privx-public-dns])
 }
 
+output "aws-privx-web-public-dns" {
+  value = module.aws.privx-web-public-dns
+}
+
 output "aws-database_password" {
   value = module.aws.database_password
 }
@@ -17,6 +21,10 @@ output "azure-privx-public-dns" {
   value = join("", ["https://", module.azure.privx-public-dns])
 }
 
+output "azure-privx-web-public-dns" {
+  value = module.azure.privx-web-public-dns
+}
+
 output "azure-database_password" {
   value = module.azure.database_password
 }
@@ -29,6 +37,10 @@ output "azure-superuser_password" {
 # GCP
 output "gcloud-privx-external-ip" {
   value = join("", ["https://", module.gcloud.privx_external-ip])
+}
+
+output "gcloud-privx-web-external-ip" {
+  value = module.gcloud.privx_web_external-ip
 }
 
 output "gcloud-database_password" {

@@ -19,6 +19,12 @@ variable "machine_typeprivx" {
   description = "machine type for Privx"
 }
 
+variable "machine_typeprivxweb" {
+  default     = "e2-medium"
+  type        = string
+  description = "machine type for Privx Web"
+}
+
 variable "ssh_pub_key_file" {
   default     = "~/.ssh/id_rsa.pub"
   type        = string
@@ -53,4 +59,10 @@ variable "privx_superuser" {
   default     = "admin"
   type        = string
   description = "Privx superuser name"
+}
+
+variable "enable_web" {
+  default     = false
+  type        = bool
+  description = "Launch and configure additional machine for Web http/https"
 }
